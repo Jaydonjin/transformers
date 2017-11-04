@@ -1,6 +1,6 @@
 # Transformers
 
-> All-powerful Transformers
+> All-powerful Transformers.
 
 ## Build Setup
 
