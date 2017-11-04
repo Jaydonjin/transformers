@@ -8,9 +8,6 @@ export default new Vuex.Store({
     currentMenu:''
   },
   mutations: {
-    increment (state) {
-      state.count++
-    },
     changeCurrentMenu(state,newMenu){
       state.currentMenu = newMenu
     }

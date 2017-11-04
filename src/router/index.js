@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Hello from '@/components/Hello'
 import Home from '@/pages/Home'
 import mediaLibrary from '../view/media-library/media-libraty.vue'
 
