@@ -18,10 +18,7 @@
 
 <script>
   export default{
-    name:'dfisFolder',
-    data(){
-
-    }
+    name:'UltraMagnus'
   }
 </script>
 <style>

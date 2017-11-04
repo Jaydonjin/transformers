@@ -3,22 +3,22 @@
     <div class="upload_area">
     <Row>
       <Col span="24">
-        <dfis-upload :uploadUrl="currentUploadUrl" @completeFileList="completeFileList"></dfis-upload>
+        <Windcharger :uploadUrl="currentUploadUrl" @completeFileList="completeFileList"></Windcharger>
       </Col>
     </Row>
     </div>
     <div class="folder_area">
-      <dfis-folder>
+      <UltraMagnus>
 
-      </dfis-folder>
+      </UltraMagnus>
     </div>
   </div>
 </template>
 
 
 <script>
-  import dfisUpload from "./component/upload.vue";
-  import dfisFolder from "./component/folder.vue";
+  import Windcharger from "./component/upload.vue";
+  import UltraMagnus from "./component/folder.vue";
 
   export default {
     name: 'media-library',
@@ -29,8 +29,8 @@
       };
     },
     components: {
-      dfisUpload,
-      dfisFolder
+      Windcharger,
+      UltraMagnus
     },
     methods: {
       completeFileList(list){

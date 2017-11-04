@@ -25,7 +25,7 @@
 <script>
   import DFISIvewUpload from '../../../ivewModule/components/upload/upload.vue'
   export default {
-    name: 'dfisUpload',
+    name: 'Windcharger',
     components:{
       DFISIvewUpload
     },
