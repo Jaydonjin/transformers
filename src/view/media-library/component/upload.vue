@@ -43,7 +43,6 @@
           title: 'Success',
           desc: true ? '' : ''
         });
-        console.log(this.completeFileList)
         this.$emit('completeFileList', this.completeFileList)
       },
       on_preview(file){
