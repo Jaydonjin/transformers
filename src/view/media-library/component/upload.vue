@@ -46,7 +46,6 @@
         this.$emit('completeFileList', this.completeFileList)
       },
       on_preview(file){
-          console.log(file)
       },
       on_clearFiles(){
           this.$refs.uploads.clearFiles();
