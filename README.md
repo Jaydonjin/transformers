@@ -1,6 +1,6 @@
 # Transformers
 
-> A Vue.js project
+> All-powerful Transformers
 
 ## Build Setup
 
