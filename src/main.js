@@ -16,9 +16,7 @@ router.beforeEach((to, from, next) => {
 });
 
 router.afterEach(route => {
-  console.log(route)
-  console.log(store.state.currentMenu);
-  store.commit('changeCurrentMenu',route.name);
+  store.commit('changeCurrentMenu', route.name);
   console.log(store.state.currentMenu);
   iView.LoadingBar.finish();
 });
@@ -27,5 +25,5 @@ new Vue({
   el: '#app',
   router,
   template: '<App/>',
-  components: { App }
+  components: {App}
 })

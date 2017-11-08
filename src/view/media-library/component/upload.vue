@@ -55,13 +55,14 @@
 </script>
 <style>
   .panel{
-    padding: 10px;
+    padding: 5px;
   }
   .panel h2 {
-    font-size: 22px;
+    font-size: 20px;
     line-height: 28px;
     color: #426188;
-    margin-bottom: 10px;
+    margin-top: 5px;
+    margin-bottom: -4px;
   }
   .list_title{
     padding-top: 10px;

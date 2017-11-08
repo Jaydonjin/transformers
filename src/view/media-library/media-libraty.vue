@@ -7,10 +7,8 @@
       </Col>
     </Row>
     </div>
-    <div class="folder_area">
-      <UltraMagnus>
-
-      </UltraMagnus>
+    <div>
+      <UltraMagnus></UltraMagnus>
     </div>
   </div>
 </template>
@@ -42,11 +40,11 @@
 </script>
 <style>
   .upload_area{
-    height: 200px;
+    height: 168px;
     padding: 0px 10px 10px 10px;
     border-top: 1px solid transparent;
     width: 100%;
-    margin-bottom: 18px;
+    /*margin-bottom: 18px;*/
     -moz-box-shadow: 0 2px 4px rgba(0,0,0,0.2);
     -webkit-box-shadow: 0 2px 4px rgba(0,0,0,0.2);
     box-shadow: 0 2px 4px rgba(0,0,0,0.2);

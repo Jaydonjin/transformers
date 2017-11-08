@@ -5,11 +5,15 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    currentMenu:''
+    currentMenu: '',
+    currentImg: {name: '', detail: {url: '', ratio: '', size: '', type: ''}}
   },
   mutations: {
-    changeCurrentMenu(state,newMenu){
+    changeCurrentMenu(state, newMenu){
       state.currentMenu = newMenu
+    },
+    changeCurrentImg(state, newImg){
+      state.currentImg = newImg
     }
   }
 });
