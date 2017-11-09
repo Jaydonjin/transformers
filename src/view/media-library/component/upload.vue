@@ -1,5 +1,8 @@
+<style lang="less">
+  @import "../../../style/main.less";
+</style>
 <template>
-  <div>
+  <div class="upload_style">
     <div class="panel">
       <h2>
         Upload Images
@@ -53,31 +56,4 @@
     }
   }
 </script>
-<style>
-  .panel{
-    padding: 5px;
-  }
-  .panel h2 {
-    font-size: 20px;
-    line-height: 28px;
-    color: #426188;
-    margin-top: 5px;
-    margin-bottom: -4px;
-  }
-  .list_title{
-    padding-top: 10px;
-    color: #888;
-    font-size: 14px;
-    line-height: 19px;
-    margin-bottom: 15px;
-    font-weight: normal;
-    margin: 0 0 15px 0;
-    display: block;
-    min-width: 350px;
-  }
-  .list_title .clean_files{
-    padding-top: 1px;
-    position: absolute;
-  }
-</style>
 

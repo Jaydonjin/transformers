@@ -1,10 +1,12 @@
+<style lang="less">
+  @import "../../../style/main.less";
+</style>
 <template>
-
   <div class="transform_area">
     <Row>
       <Col :span="10" class="transform_option_area">
       <Form ref="transformOption" :model="transformOption" label-position="top">
-        <h3>Resize & crop</h3>
+        <h3>Resize & crop <a class="option_rest" @click="on_reset_option()">Reset</a></h3>
         <Row>
           <Col :span="8">
           <FormItem label="Width:" class="transform_option_item">
@@ -75,12 +77,15 @@
       <div class="transform_area_preview" style="min-height: 400px">
         <img class="transform_preview_img" :src="current_img.detail.url">
         <a class="transform_preview_full_image">
-          <span>View full-size image</span>
+          <span><a :href="current_transform_url" target="_blank">View full-size image</a></span>
         </a>
         <div>
           <Tabs type="card">
             <TabPane label="URL">
-              <pre><a class="transform_sdk_url">http://scmesos04/autotest/normalgroup/monitor.jpg</a></pre>
+              <pre><a class="transform_sdk_url" :href="current_transform_url" target="_blank">{{current_transform_url}}</a><span
+                style="display: inline-block;margin-left: 10px"
+                v-clipboard="current_transform_url" @click="clipboardSuccess()"><a><Icon size='25'
+                                                                                          type="ios-copy-outline"></Icon></a></span></pre>
             </TabPane>
           </Tabs>
         </div>
@@ -97,98 +102,72 @@
     data(){
       return {
         current_img: store.state.currentImg,
-        transformOption: {width: 100, height: 100, mode: 'Scale', format: 'Keep format', quality: 100, rotation: 0},
+        transformOption: this.init_transform_option(),
         modes: ['Scale', 'Fill'],
-        formatTypes: ['Keep format', 'JPG', 'PNG']
+        formatTypes: ['Keep format', 'JPG', 'PNG'],
+        transformOptionChange:false
       }
     },
     methods: {
+      init_transform_option(){
+          return {width: 100, height: 100, mode: 'Scale', format: 'Keep format', quality: 100, rotation: 0}
+      },
+      on_reset_option(){
+        this.transformOption=this.init_transform_option();
+        this.transformOptionChange=false;
+      },
       create_conditional(){
         console.log(this.transformOption.width);
         return this.transformOption.width
+      },
+      clipboardSuccess(e){
+        this.$Message.success('Copied !')
+      },
+      clipboardError(){
+        this.$Message.warning('Copy failed .')
+      },
+      format_transform_url(conditionals){
+        let url=this.current_img.detail.url;
+        let url_array=[];
+        let img_name;
+        if(url){
+          url_array=url.split('/');
+          img_name=url_array.pop();
+          url_array.push(...conditionals);
+          url_array.push(img_name)
+        }
+        return url_array
+      }
+    },
+    watch:{
+      transformOption:{
+        handler:function () {
+        this.transformOptionChange=true},
+        deep: true
       }
     },
     computed: {
       current_transform_url: function () {
-        let url = "";
-        if (this.transformOption.mode) {
-          url += `c_${this.transformOption.mode}`
+        let conditionals=[];
+        let conditional="";
+        if (this.transformOption.mode && this.transformOptionChange) {
+          conditional += `c_${this.transformOption.mode}`
         }
         if (this.transformOption.width != 100) {
-          url += `,w_${this.transformOption.width}`
+          conditional += `,w_${this.transformOption.width}`
         }
         if (this.transformOption.height != 100) {
-          url += `,h_${this.transformOption.height}`
+          conditional += `,h_${this.transformOption.height}`
         }
-        return url.toLocaleLowerCase()
+        conditional!="" ?conditionals.push(conditional):'';
+        let url_array = this.format_transform_url(conditionals);
+
+        return url_array.join('/').toLocaleLowerCase()
       }
     }
   }
 </script>
 <style>
-  .transform_area {
-    padding-left: 20px;
-  }
-
-  .transform_option_area {
-    padding-top: 20px;
-  }
-
-  .transform_area_preview {
-    box-shadow: -1px 0 0px #ccc;
-    border-left: 1px solid #f1f1f1;
-    border-bottom: 1px solid #f1f1f1;
-    padding: 20px 0px 0px 20px;
-  }
-
-  .transform_preview_img {
-    border: 1px solid #b4bfcd;
-    max-width: 70%;
-    max-height: 300px;
-  }
-
-  .transform_sdk_url {
-    font-size: 12px;
-    line-height: 16px;
-    font-weight: bold;
-    color: #333;
-    text-decoration: underline;
-  }
-
-  .transform_preview_full_image {
-    margin-top: 5px;
-    margin-bottom: 15px;
-    font-size: 12px;
-    line-height: 16px;
-    font-weight: bold;
-    color: #333;
-    text-decoration: underline;
-    text-align: left;
-    display: block;
-  }
-
-  .transform_option_area h3 {
-    font-size: 14px;
-    font-weight: bold;
-    color: #426188;
-    font-size: 14px;
-    line-height: 19px;
-    margin: 0 0 14px 0;
-    padding: 0;
-  }
-
-  .transform_option_item {
-    padding-right: 20px;
-  }
-
-  .transform_option_item .slider_item {
-    /*margin-top: 40px*/
-  }
-
-  .transform_option_item .select_item {
-    width: 70%;
-  }
-
   .ivu-slider-input .ivu-slider-wrap {
     /* width: auto; */
     margin-right: 100px;

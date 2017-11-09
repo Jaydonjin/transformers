@@ -1,5 +1,8 @@
+<style lang="less">
+  @import "../../../style/main.less";
+</style>
 <template>
-  <div v-if="current_img.name">
+  <div class="image_detail" v-if="current_img.name">
     <div class="area_image_display">
       <img class="area_image_display" :src="current_img.detail.url">
     </div>
@@ -23,44 +26,5 @@
   }
 </script>
 <style>
-  div.area_image_display {
-    display: inline-block;
-    padding-top: 10px;
-    padding-left: 21px;
-  }
-
-  div.area_image_detail {
-    display: inline-block;
-    vertical-align: top;
-    padding-top: 10px;
-    padding-left: 10px;
-  }
-
-  img.area_image_display {
-    max-height: 95px;
-    border: 1px solid #b4bfcd;
-  }
-
-  .public_id {
-    color: #444;
-    font-weight: bold;
-    font-size: 20px;
-    line-height: 28px;
-    margin-bottom: 4px;
-    margin-top: 0;
-    max-width: 480px;
-    overflow: hidden;
-    word-wrap: break-word;
-  }
-
-  .area_image_detail .info {
-    color: #999;
-    font-size: 12px;
-  }
-
-  .area_image_detail .upload_info {
-    color: #999;
-    font-size: 12px;
-  }
 
 </style>

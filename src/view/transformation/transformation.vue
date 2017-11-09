@@ -1,5 +1,8 @@
+<style lang="less">
+  @import "../../style/main.less";
+</style>
 <template>
-  <div>
+  <div class="transform_view">
     <transition name="slide-left">
       <div class="image_detail_area">
         <IronHide></IronHide>
@@ -25,13 +28,5 @@
   }
 </script>
 <style>
-  .image_detail_area {
-    height: 120px;
-    padding: 0px 10px 10px 10px;
-    border-top: 1px solid transparent;
-    width: 100%;
-    -moz-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  }
+
 </style>

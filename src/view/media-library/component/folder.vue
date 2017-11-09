@@ -1,5 +1,5 @@
 <template>
-  <div class="folder_in_area">
+  <div class="folder_style">
     <Row class="folder_title">
       <Col span="19">
       <Breadcrumb style="display: inline-block">
@@ -42,10 +42,3 @@
     }
   }
 </script>
-<style>
-  .folder_in_area .folder_title {
-    padding: 10px;
-    border-bottom: 1px dashed #aaa;
-  }
-
-</style>

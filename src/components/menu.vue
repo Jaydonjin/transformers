@@ -2,7 +2,7 @@
   @import "../style/main.less";
 </style>
 <template>
-  <div class="dfis">
+  <div class="dfis_menu">
     <div class="transformer_menu">
       <Menu mode="horizontal" :theme="theme1" :active-name="activeName" @on-select="currentMenuName">
         <MenuItem name="dashboard">

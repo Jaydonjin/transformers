@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="media_library_style">
     <div class="upload_area">
     <Row>
       <Col span="24">
@@ -39,24 +39,5 @@
   }
 </script>
 <style>
-  .upload_area{
-    height: 168px;
-    padding: 0px 10px 10px 10px;
-    border-top: 1px solid transparent;
-    width: 100%;
-    /*margin-bottom: 18px;*/
-    -moz-box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    -webkit-box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-  }
-  .folder_area{
-    min-height: 400px;
-    padding: 0px 10px 10px 10px;
-    border-top: 1px solid transparent;
-    width: 100%;
-    margin-bottom: 18px;
-    -moz-box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    -webkit-box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    box-shadow: 0 -2px 4px rgba(0,0,0,0.2);
-  }
+
 </style>
