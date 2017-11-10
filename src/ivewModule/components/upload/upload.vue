@@ -236,20 +236,27 @@
                 let formData = new FormData();
                 formData.append(this.name, file);
 
+                // Expand by jaydon.t.jin
+                let fullPath = `${this.action}/${encodeURIComponent(file.name)}`;
+
                 ajax({
                     headers: this.headers,
                     withCredentials: this.withCredentials,
                     file: file,
                     data: this.data,
                     filename: this.name,
-                    action: this.action,
+//                    action: this.action,
+                    action: fullPath,
                     onProgress: e => {
-                        this.handleProgress(e, file);
+                      console.log("progress")
+                      this.handleProgress(e, file);
                     },
                     onSuccess: res => {
-                        this.handleSuccess(res, file);
+                      console.log("success")
+                      this.handleSuccess(res, file);
                     },
                     onError: (err, response) => {
+                        console.log("error")
                         this.handleError(err, response, file);
                     }
                 });

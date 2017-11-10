@@ -1,17 +1,17 @@
 <template>
   <div class="folder_directory_style" style="padding: 5px 5px 5px 20px">
-    <a v-for="item in current_directory" key="item" v-if="item.isDirectory" class="directory_item">
+    <a v-for="(item,index) in currentTree" :key="index" v-if="item.IsDirectory" @click="on_folder(item.Name)" class="directory_item">
       <Icon type="folder" size="40"></Icon>
-      <Tooltip :content="item.name" placement="bottom-start"><span class="x-folder-item-title">{{item.name}}</span>
+      <Tooltip :content="item.Name" placement="bottom-start"><span class="x-folder-item-title">{{item.Name}}</span>
       </Tooltip>
     </a>
     <div style="margin-bottom: 50px"></div>
-    <a v-for="item in current_directory" key="item" v-if="!item.isDirectory" class="img_item"
+    <a v-for="(item,index) in currentTree" :key="index" v-if="!item.IsDirectory" class="img_item"
        @click="on_transform_img(item)">
       <span class="directory_item_img">
-      <img :src="item.detail.url">
+      <img :src="item.url">
       </span>
-      <div class="img_item_detail"><span>{{item.name}}</span></div>
+      <div class="img_item_detail"><span>{{item.Name}}</span></div>
     </a>
   </div>
 </template>
@@ -19,63 +19,51 @@
 <script>
   import store from '../../../store'
   import route from '../../../router'
+  import {directoryService} from '../../../services'
+
   export default{
     name: 'Bumblebee',
     data(){
       return {
-        current_directory: [
-          {'name': 'testtetesttetesttetesttetestte', 'isDirectory': true},
-          {'name': 'test', 'isDirectory': true},
-          {'name': 'test', 'isDirectory': true},
-          {
-            'name': 'test.jpg',
-            'isFolder': false,
-            'detail': {
-              'url': 'http://scmesos04/autotest/normalgroup/monitor.jpg',
-              'size': '418KB',
-              'type': 'JPG',
-              'ratio': '1920x1080'
-            }
-          },
-          {
-            'name': 'adasd123123asdasda.jpg',
-            'isFolder': false,
-            'detail': {
-              'url': 'http://scmesos04/autotest/normalgroup/adasd123123asdasda.jpg',
-              'size': '418KB',
-              'type': 'JPG',
-              'ratio': '1920x1080'
-            }
-          },
-          {
-            'name': 'ffffffffffffffqqqqqqqqqqqqqqqqqqwwddddddwa.jpg',
-            'isFolder': false,
-            'detail': {
-              'url': 'http://scmesos04/autotest/normalgroup/ffffffffffffffqqqqqqqqqqqqqqqqqqwwddddddwa.jpg',
-              'size': '418KB',
-              'type': 'JPG',
-              'ratio': '1920x1080'
-            }
-          },
-          {
-            'name': 'ffffffffffffffqqqqqqqqqqqqqqqqqqwwddddddwa.jpg',
-            'isFolder': false,
-            'detail': {
-              'url': 'https://res.cloudinary.com/dgvxg1d2d/image/upload/t_media_lib_thumb/v1510127961/Capture_n0ih73.png',
-              'size': '418KB',
-              'type': 'JPG',
-              'ratio': '1920x1080'
-            }
-          }
-        ]
+        currentTree:[],
+        waiting:false
       }
     },
     methods: {
+      get_tree(pullPath){
+        directoryService.get_sub_tree(pullPath)
+          .then(response =>{
+            if(response.data){
+              this.currentTree = response.data;
+              this.waiting=false
+            }
+          })
+          .catch(response =>{
+            this.waiting=false
+          })
+      },
       on_transform_img(img){
         store.commit('changeCurrentImg', img);
         store.commit('changeCurrentMenu', 'transformations');
         route.push('transformations')
+      },
+      on_folder(folderName){
+        if(this.waiting){return}
+        this.waiting=true;
+        let currentDirectory=`${this.currentDirectory}/${folderName}`;
+        store.commit('changeCurrentDirectory',currentDirectory);
+        this.get_tree(this.currentDirectory);
       }
+    },
+    mounted(){
+        this.get_tree(this.currentDirectory)
+    },
+    computed:{
+      currentDirectory:function () {
+        return store.state.currentDirectory
+      }
+    },
+    watch:{
     }
   }
 </script>

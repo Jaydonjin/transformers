@@ -1,18 +1,27 @@
 import axios from 'axios'
-import config from'../config'
-
+import config from '../config'
+import iView from 'iview';
 export default {
-  request (method, uri, data = null, headers) {
+  request (method, url, data = null, headers) {
+    iView.LoadingBar.start();
     if (!method) {
       console.error('API function call requires method argument');
       return
     }
-    if (!uri) {
+    if (!url) {
       console.error('API function call requires uri argument');
       return
     }
-
-    let url = config.serverURI + uri;
     return axios({method, url, data, headers})
-  }
+      .then(res=>{
+        iView.LoadingBar.finish();
+        return res
+      })
+      .catch(err =>{
+        return Promise.reject(err);
+        iView.LoadingBar.error()
+      })
+  },
+
+
 }

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '@/pages/Home'
-import mediaLibrary from '../view/media-library/media-library.vue'
+import mediaLibrary from '../view/media-library/media-library2.vue'
 import transformation from"../view/transformation/transformation.vue"
 
 Vue.use(VueRouter);

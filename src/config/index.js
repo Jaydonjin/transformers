@@ -1,3 +1,6 @@
+const serverURI = 'http://st01nbx01/engine_api';
+
 export default {
-  serverURI: 'http://st01nbx01'
+  DirectoryUrl: `${serverURI}/directory`,
+  FileUrl: `${serverURI}/file`
 }
