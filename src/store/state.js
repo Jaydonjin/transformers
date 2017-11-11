@@ -4,5 +4,6 @@ export default {
     name: '',
     detail: {url: '', ratio: '', size: '', type: ''}
   },
-  currentDirectory:''
+  currentDirectory:'',
+  currentSelectFiles:[]
 }

@@ -7,5 +7,8 @@ export default {
   },
   changeCurrentDirectory(state,newDirectory){
     state.currentDirectory = newDirectory
+  },
+  changeCurrentSelectFiles(state,newFiles){
+    state.currentSelectFiles=newFiles
   }
 }

@@ -3,7 +3,7 @@
     <div class="upload_area">
       <Row>
         <Col span="24">
-        <Windcharger :uploadUrl="currentUploadUrl" @completeFileList="completeFileList"></Windcharger>
+        <Windcharger :uploadUrl="currentUploadUrl"></Windcharger>
         </Col>
       </Row>
     </div>
@@ -24,7 +24,6 @@
     name: 'media-library',
     data () {
       return {
-        completeFileLists:[]
       };
     },
     components: {

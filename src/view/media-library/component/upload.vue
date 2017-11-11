@@ -13,9 +13,9 @@
       type="drag"
       :action="uploadUrl"
       :on-success="uploadSuccess"
+      :on-error="uploadError"
       :on-preview="on_preview"
       :show-upload-list="true"
-      :default-file-list="completeFileList"
       ref="uploads">
       <div style="padding: 20px 0">
         <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
@@ -26,32 +26,37 @@
 </template>
 
 <script>
+  import bus from'./bus'
   import DFISIvewUpload from '../../../ivewModule/components/upload/upload.vue'
   export default {
     name: 'Windcharger',
-    components:{
+    components: {
       DFISIvewUpload
     },
-    props:{
-      uploadUrl:{type:[String]}
+    props: {
+      uploadUrl: {type: [String]}
     },
     data(){
-        return {
-          completeFileList:[]
-        }
-  },
-    methods:{
+      return {}
+    },
+    methods: {
       uploadSuccess(response, file, fileList){
         this.$Notice.success({
-          title: 'Success',
+          title: 'Upload Success',
           desc: true ? '' : ''
         });
-        this.$emit('completeFileList', this.completeFileList)
+        bus.$emit('fileUploaded')
+      },
+      uploadError(response, file, fileList){
+        this.$Notice.error({
+          title: 'Upload Failed',
+          desc: true ? '' : ''
+        });
       },
       on_preview(file){
       },
       on_clearFiles(){
-          this.$refs.uploads.clearFiles();
+        this.$refs.uploads.clearFiles();
       }
     }
   }

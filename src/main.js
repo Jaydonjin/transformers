@@ -5,13 +5,17 @@ import App from './App'
 import router from './router'
 import iView from 'iview'
 import store from './store'
+import BootstrapVue from 'bootstrap-vue'
 import 'iview/dist/styles/iview.css'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 import VueClipboards  from 'vue2-clipboards';
 
 
 Vue.config.productionTip = false;
 Vue.use(iView);
 Vue.use(VueClipboards);
+Vue.use(BootstrapVue);
 
 router.beforeEach((to, from, next) => {
   iView.LoadingBar.start();

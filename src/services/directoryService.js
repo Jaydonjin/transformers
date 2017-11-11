@@ -8,6 +8,9 @@ class DirectoryService {
   static add_sub_folder(pullPath){
     return ajax.request('post',`${config.DirectoryUrl}${pullPath}`);
   }
+  static delete_sub_folder(pullPath){
+    return ajax.request('delete',`${config.DirectoryUrl}${pullPath}`);
+  }
 }
 
 export default DirectoryService

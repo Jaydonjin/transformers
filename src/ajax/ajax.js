@@ -1,6 +1,7 @@
 import axios from 'axios'
 import config from '../config'
 import iView from 'iview';
+
 export default {
   request (method, url, data = null, headers) {
     iView.LoadingBar.start();
@@ -13,14 +14,15 @@ export default {
       return
     }
     return axios({method, url, data, headers})
-      .then(res=>{
+      .then(res => {
         iView.LoadingBar.finish();
         return res
       })
-      .catch(err =>{
-        return Promise.reject(err);
-        iView.LoadingBar.error()
-      })
+      .catch(err => {
+          iView.LoadingBar.error();
+          return Promise.reject(err.response);
+        }
+      )
   },
 
 
