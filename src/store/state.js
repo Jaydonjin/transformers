@@ -5,5 +5,6 @@ export default {
     detail: {url: '', ratio: '', size: '', type: ''}
   },
   currentDirectory:'',
-  currentSelectFiles:[]
+  currentSelectFiles:[],
+  currentBreadcrumb:[]
 }

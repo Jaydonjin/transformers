@@ -7,7 +7,7 @@
       </Tooltip>
     </a>
     <div style="margin-bottom: 50px"></div>
-    <CheckboxGroup v-model="currentSelectFiles">
+    <CheckboxGroup v-model="currentSelectFiles" @on-change="handleSelectFiles">
     <a v-for="(item,index) in currentTree" :key="index" v-if="!item.IsDirectory" class="img_item">
       <span class="directory_item_img" @click="on_transform_img(item)">
       <img :src="item.url" >
@@ -30,7 +30,6 @@
       return {
         currentTree: [],
         waiting: false,
-        currentSelectFiles:[]
       }
     },
     methods: {
@@ -40,7 +39,8 @@
             if (response.data) {
               this.currentTree = response.data;
               this.$emit('currentTree',this.currentTree);
-              this.waiting = false
+              this.waiting = false;
+              this.currentSelectFiles=[]
             }
           })
           .catch(response => {
@@ -60,6 +60,9 @@
         let currentDirectory = `${this.currentDirectory}/${folderName}`;
         store.commit('changeCurrentDirectory', currentDirectory);
         this.get_tree(this.currentDirectory);
+      },
+      handleSelectFiles(event){
+        console.log("handleSelectFiles",event)
       }
     },
     mounted(){
@@ -68,12 +71,15 @@
     computed: {
       currentDirectory: function () {
         return store.state.currentDirectory
+      },
+      currentSelectFiles:{
+        get:function () {return store.state.currentSelectFiles},
+        set:function (newValue) {
+          store.commit("changeCurrentSelectFiles",newValue)
+        }
       }
     },
     watch: {
-      currentSelectFiles:function (val) {
-          store.commit("changeCurrentSelectFiles",val)
-      }
     },
     created(){
       bus.$on('fileUploaded', function () {

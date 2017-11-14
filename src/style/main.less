@@ -143,7 +143,19 @@
 .folder_style{
   .folder_title {
     padding: 10px;
+    min-height: 45px;
     border-bottom: 1px dashed #aaa;
+  }
+  .slide-fade-enter-active {
+    transition: all .5s ease;
+  }
+  .slide-fade-leave-active {
+    transition: all .8s cubic-bezier(0.5, 0.5, 0.8, 1.0);
+  }
+  .slide-fade-enter, .slide-fade-leave-to
+    /* .slide-fade-leave-active for below version 2.1.8 */ {
+    transform: translateX(10px);
+    opacity: 0;
   }
 }
 //folder-directory.vue
@@ -202,6 +214,50 @@
     -webkit-box-shadow: 1px 1px 4px #ccc;
     box-shadow: 1px 1px 4px #ccc;
   }
+  .ivu-checkbox-checked .ivu-checkbox-inner {
+    border-color:  #0072bb;
+    background-color:  #0072bb;
+  }
+}
+//action-tabs.vue
+.action_tabs_style{
+  .ivu-tree-title {
+    display: inline-block;
+    margin: 0;
+    padding: 0 4px;
+    border-radius: 3px;
+    cursor: pointer;
+    vertical-align: top;
+    color: white;
+    transition: all .2s ease-in-out;
+  }
+  .card-body {
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: 0.5rem;
+  }
+  .image-selected-text{
+    margin-left: 10px;
+    font-size: 11px
+  }
+  .image-selected-text a{
+    text-decoration:underline;
+  }
+  .image-selected-text a :hover{
+    text-decoration:underline;
+  }
+  .bg-primary{
+    background-color: #0072bb !important;
+  }
+  .btn-primary{
+    color: #fff;
+    background-color: #0072bb !important;
+    border-color: #0072bb !important;
+  }
+  .move_path_style input{
+    color: #014d7e;
+    border-color: black;
+  }
 }
 //upload.vue
 .upload_style{
@@ -254,6 +310,7 @@
     box-shadow: 0 -2px 4px rgba(0,0,0,0.2);
   }
 }
+
 
 
 

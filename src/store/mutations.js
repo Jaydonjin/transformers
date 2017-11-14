@@ -10,5 +10,8 @@ export default {
   },
   changeCurrentSelectFiles(state,newFiles){
     state.currentSelectFiles=newFiles
+  },
+  changeCurrentBreadcrumb(state,newValue){
+    state.currentBreadcrumb=newValue
   }
 }
