@@ -24,6 +24,19 @@ export default {
         }
       )
   },
+  requestAll(requestList){
+    return axios.all(requestList)
+      .then(res => {
+        iView.LoadingBar.finish();
+        console.log(res)
+        return res
+      })
+      .catch(err => {
+        iView.LoadingBar.error();
+        console.log(err)
+        return Promise.reject(err);
+      })
+  }
 
 
 }

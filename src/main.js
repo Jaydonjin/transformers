@@ -10,12 +10,14 @@ import 'iview/dist/styles/iview.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import VueClipboards  from 'vue2-clipboards';
+import vueTruncateFilter from 'vue-truncate-filter'
 
 
 Vue.config.productionTip = false;
 Vue.use(iView);
 Vue.use(VueClipboards);
 Vue.use(BootstrapVue);
+Vue.use(vueTruncateFilter)
 
 router.beforeEach((to, from, next) => {
   iView.LoadingBar.start();

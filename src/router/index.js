@@ -20,7 +20,7 @@ export const page404 = {
 export const appRouter = [
   {
     path: '/console',
-    redirect: '/console/dashboard',
+    redirect: '/console/media_library',
     name: 'Home',
     component: Home,
     children: [
@@ -32,6 +32,7 @@ export const appRouter = [
       {
         path: 'dashboard',
         name: 'dashboard',
+        redirect: 'media_library',
       },
       {
         path: 'transformations',

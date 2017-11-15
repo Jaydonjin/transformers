@@ -8,12 +8,12 @@
     </a>
     <div style="margin-bottom: 50px"></div>
     <CheckboxGroup v-model="currentSelectFiles" @on-change="handleSelectFiles">
-    <a v-for="(item,index) in currentTree" :key="index" v-if="!item.IsDirectory" class="img_item">
+      <a v-for="(item,index) in currentTree" :key="index" v-if="!item.IsDirectory" class="img_item">
       <span class="directory_item_img" @click="on_transform_img(item)">
-      <img :src="item.url" >
+      <img :src="dfisURL+encodeURIComponent(item.FullName)">
       </span>
-      <div class="img_item_detail"><span><Checkbox :label="item.Name"></Checkbox></span></div>
-    </a>
+        <div class="img_item_detail"><span><Checkbox :label="item.Name"><span :title="item.Name">{{item.Name | truncate(20) }}</span></Checkbox></span></div>
+      </a>
     </CheckboxGroup>
   </div>
 </template>
@@ -21,15 +21,17 @@
 <script>
   import bus from './bus'
   import store from '../../../store'
+  import config from '../../../config'
   import route from '../../../router'
   import {directoryService} from '../../../services'
 
   export default{
-    name: 'Bumblebee',
+    name: 'folderDirectory',
     data(){
       return {
         currentTree: [],
         waiting: false,
+        dfisURL:config.DFISUrl
       }
     },
     methods: {
@@ -37,13 +39,15 @@
         directoryService.get_sub_tree(pullPath)
           .then(response => {
             if (response.data) {
+              this.$emit('modalDisplay',false);
               this.currentTree = response.data;
-              this.$emit('currentTree',this.currentTree);
+              this.$emit('currentTree', this.currentTree);
               this.waiting = false;
-              this.currentSelectFiles=[]
+              this.currentSelectFiles = []
             }
           })
           .catch(response => {
+            this.$emit('modalDisplay',false);
             this.waiting = false
           })
       },
@@ -57,12 +61,12 @@
           return
         }
         this.waiting = true;
-        let currentDirectory = `${this.currentDirectory}/${folderName}`;
+        let currentDirectory = this.currentDirectory == '' ? folderName : `${this.currentDirectory}/${folderName}`;
         store.commit('changeCurrentDirectory', currentDirectory);
         this.get_tree(this.currentDirectory);
       },
       handleSelectFiles(event){
-        console.log("handleSelectFiles",event)
+        console.log("handleSelectFiles", event)
       }
     },
     mounted(){
@@ -72,19 +76,40 @@
       currentDirectory: function () {
         return store.state.currentDirectory
       },
-      currentSelectFiles:{
-        get:function () {return store.state.currentSelectFiles},
-        set:function (newValue) {
-          store.commit("changeCurrentSelectFiles",newValue)
+      imageUpload: function () {
+        return store.state.imageUpload
+      },
+      imageDelete: function () {
+        return store.state.imageDeleted
+      },
+      imageMove: function () {
+        return store.state.imageMove
+      },
+      imageMovePath: function () {
+        return store.state.imageMovePath
+      },
+      currentSelectFiles: {
+        get: function () {
+          return store.state.currentSelectFiles
+        },
+        set: function (newValue) {
+          store.commit("changeCurrentSelectFiles", newValue)
         }
       }
     },
     watch: {
+      imageUpload: function () {
+        this.get_tree(this.currentDirectory);
+      },
+      imageDelete: function () {
+        this.get_tree(this.currentDirectory);
+      },
+      imageMove:function () {
+        store.commit('changeCurrentDirectory', this.imageMovePath);
+        this.get_tree(this.imageMovePath)
+      }
     },
     created(){
-      bus.$on('fileUploaded', function () {
-        this.get_tree(this.currentDirectory);
-      })
     }
   }
 </script>

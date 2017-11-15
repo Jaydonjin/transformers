@@ -5,10 +5,10 @@
   <div class="dfis_menu">
     <div class="transformer_menu">
       <Menu mode="horizontal" :theme="theme1" :active-name="activeName" @on-select="currentMenuName">
-        <MenuItem name="dashboard">
-          <Icon type="ios-paper"></Icon>
-          Dashboard
-        </MenuItem>
+        <!--<MenuItem name="dashboard">-->
+          <!--<Icon type="ios-paper"></Icon>-->
+          <!--Dashboard-->
+        <!--</MenuItem>-->
         <MenuItem name="media_library">
           <Icon type="images"></Icon>
           Media Library

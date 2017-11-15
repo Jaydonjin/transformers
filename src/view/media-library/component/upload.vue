@@ -11,6 +11,7 @@
     <DFISIvewUpload
       multiple
       type="drag"
+      name="Attachment"
       :action="uploadUrl"
       :on-success="uploadSuccess"
       :on-error="uploadError"
@@ -27,9 +28,10 @@
 
 <script>
   import bus from'./bus'
+  import store from '../../../store'
   import DFISIvewUpload from '../../../ivewModule/components/upload/upload.vue'
   export default {
-    name: 'Windcharger',
+    name: 'dfisUpload',
     components: {
       DFISIvewUpload
     },
@@ -45,7 +47,7 @@
           title: 'Upload Success',
           desc: true ? '' : ''
         });
-        bus.$emit('fileUploaded')
+        store.commit('changeImageUpload')
       },
       uploadError(response, file, fileList){
         this.$Notice.error({

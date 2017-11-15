@@ -4,7 +4,11 @@ export default {
     name: '',
     detail: {url: '', ratio: '', size: '', type: ''}
   },
-  currentDirectory:'',
-  currentSelectFiles:[],
-  currentBreadcrumb:[]
+  currentDirectory: '',
+  currentSelectFiles: [],
+  currentBreadcrumb: [],
+  imageUpload: false,
+  imageDeleted: false,
+  imageMove: false,
+  imageMovePath: '',
 }

@@ -3,45 +3,44 @@
     <div class="upload_area">
       <Row>
         <Col span="24">
-        <Windcharger :uploadUrl="currentUploadUrl"></Windcharger>
+        <dfis-upload :uploadUrl="currentUploadUrl"></dfis-upload>
         </Col>
       </Row>
     </div>
     <div>
-      <UltraMagnus></UltraMagnus>
+      <folder></folder>
     </div>
   </div>
 </template>
 
 
 <script>
-  import Windcharger from "./component/upload.vue";
-  import UltraMagnus from "./component/folder.vue";
+  import dfisUpload from "./component/upload.vue";
+  import folder from "./component/folder.vue";
   import config from "../../config"
   import store from "../../store"
 
   export default {
     name: 'media-library',
     data () {
-      return {
-      };
+      return {};
     },
     components: {
-      Windcharger,
-      UltraMagnus
+      dfisUpload,
+      folder
     },
     methods: {
       completeFileList(list){
-        this.completeFileLists=list;
+        this.completeFileLists = list;
         console.log(this.completeFileLists)
       }
     },
-    computed:{
-      currentDirectory:function () {
+    computed: {
+      currentDirectory: function () {
         return store.state.currentDirectory
       },
-      currentUploadUrl:function () {
-        return `${config.FileUrl}${this.currentDirectory}`
+      currentUploadUrl: function () {
+        return this.currentDirectory==''?config.FileUrl:`${config.FileUrl}${this.currentDirectory}/`
       }
     }
   }

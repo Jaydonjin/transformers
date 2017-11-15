@@ -237,7 +237,7 @@
                 formData.append(this.name, file);
 
                 // Expand by jaydon.t.jin
-                let fullPath = `${this.action}/${encodeURIComponent(file.name)}`;
+                let fullPath = `${this.action}${encodeURIComponent(file.name)}`;
 
                 ajax({
                     headers: this.headers,
@@ -286,6 +286,8 @@
             handleProgress (e, file) {
                 const _file = this.getFile(file);
                 this.onProgress(e, _file, this.fileList);
+                // Fix (Jaydon.t.Jin) percent max 99 before success
+                e.percent = e.percent == 100?99:e.percent;
                 _file.percentage = e.percent || 0;
             },
             handleSuccess (res, file) {
@@ -294,6 +296,9 @@
                 if (_file) {
                     _file.status = 'finished';
                     _file.response = res;
+
+                  // Fix (Jaydon.t.Jin) percent max 99 before success
+                    _file.percentage = res.percent || 0;
 
                     this.dispatch('FormItem', 'on-form-change', _file);
                     this.onSuccess(res, _file, this.fileList);
