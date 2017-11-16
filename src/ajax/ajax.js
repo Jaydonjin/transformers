@@ -1,6 +1,6 @@
 import axios from 'axios'
-import config from '../config'
 import iView from 'iview';
+import {session} from '@/common'
 
 export default {
   request (method, url, data = null, headers) {
@@ -13,7 +13,10 @@ export default {
       console.error('API function call requires uri argument');
       return
     }
-    return axios({method, url, data, headers})
+    let token= session.get('transformers_token');
+    let defaultHeader = {"Authorization":`bearer ${token}`};
+    let header = headers ? headers : defaultHeader;
+    return axios({method, url, data, headers:header})
       .then(res => {
         iView.LoadingBar.finish();
         return res

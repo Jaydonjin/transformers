@@ -18,6 +18,7 @@
       :on-error="uploadError"
       :on-preview="on_preview"
       :show-upload-list="true"
+      :headers="uploadHeaders"
       ref="uploads">
       <div style="padding: 20px 0">
         <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
@@ -31,6 +32,8 @@
   import bus from'./bus'
   import store from '../../../store'
   import DFISIvewUpload from '../../../ivewModule/components/upload/upload.vue'
+  import {session} from '@/common'
+
   export default {
     name: 'dfisUpload',
     components: {
@@ -40,7 +43,9 @@
       uploadUrl: {type: [String]}
     },
     data(){
-      return {}
+      return {
+        token:session.get('transformers_token')
+      }
     },
     methods: {
       uploadSuccess(response, file, fileList){
@@ -50,10 +55,13 @@
         });
         store.commit('changeImageUpload')
       },
-      uploadError(response, file, fileList){
+      uploadError(err, response, file){
+          console.log(session.get('transformers_token'))
+          console.log(this.uploadHeaders)
+        let noticeDesc = response.message;
         this.$Notice.error({
           title: 'Upload Failed',
-          desc: true ? '' : ''
+          desc: true ? noticeDesc : ''
         });
       },
       nameError(file, fileList){
@@ -67,6 +75,11 @@
       },
       on_clearFiles(){
         this.$refs.uploads.clearFiles();
+      }
+    },
+    computed:{
+      uploadHeaders(){
+          return {"Authorization":`bearer ${this.token}`}
       }
     }
   }

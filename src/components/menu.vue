@@ -20,13 +20,14 @@
         <MenuItem name="user" style="float: right;padding-top: 2px">
           <Dropdown trigger="custom" placement="bottom-end" :visible="visible">
             <a href="javascript:void(0)" @click="handleOpen">
-              <Avatar icon="person"/>
+              <Avatar :src="currentUser.Avatar"/>
             </a>
             <DropdownMenu slot="list">
               <div>
-                <DropdownItem>Jaydon.T.Jin</DropdownItem>
+                <DropdownItem>{{currentUser.DisplayName}}</DropdownItem>
                 <div class="user_item_close">
-                  <Button type="primary" @click="handleClose" size="small">关闭</Button>
+                  <Button type="primary" @click="handleClose()" size="small">Cancel</Button>
+                  <Button type="error" @click="logout()" size="small">Logout</Button>
                 </div>
               </div>
             </DropdownMenu>
@@ -39,6 +40,7 @@
 
 <script>
   import router from '../router/index'
+  import { mapGetters, mapActions } from 'vuex'
   import store from '../store'
   export default {
     name: 'dfisMenu',
@@ -46,12 +48,13 @@
       return {
         theme1: 'dark',
         visible: false,
-        toolBar: ['user'],
+        toolBar: ['user']
       }
     },
     methods: {
+      ...mapActions(['logout']),
       handleOpen () {
-        this.visible = true;
+        this.visible = !this.visible;
       },
       handleClose () {
         this.visible = false;
@@ -64,6 +67,9 @@
       }
     },
     computed: {
+      ...mapGetters([
+        'currentUser'
+      ]),
       activeName(){
         return store.state.currentMenu
       }

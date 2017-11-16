@@ -23,21 +23,33 @@ export const appRouter = [
     redirect: '/console/media_library',
     name: 'Home',
     component: Home,
+    meta: {
+      requiresAuth: true
+    },
     children: [
       {
         path: 'media_library',
         name: 'media_library',
         component: mediaLibrary,
+        meta: {
+          requiresAuth: true
+        }
       },
       {
         path: 'dashboard',
         name: 'dashboard',
         redirect: 'media_library',
+        meta: {
+          requiresAuth: true
+        }
       },
       {
         path: 'transformations',
         name: 'transformations',
-        component: transformation
+        component: transformation,
+        meta: {
+          requiresAuth: true
+        }
       }
     ]
   },
@@ -48,6 +60,7 @@ export const routers = [
   page404
 ];
 export default new VueRouter({
-  routes: routers
+  routes: routers,
+  mode: 'history'
 })
 

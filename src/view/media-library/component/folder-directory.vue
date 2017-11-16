@@ -12,7 +12,7 @@
       <span class="directory_item_img" @click="on_transform_img(item)">
       <img :src="dfisThumbnailUrl+encodeURIComponent(item.FullName)">
       </span>
-        <div class="img_item_detail"><span><Checkbox :label="item.Name"><span :title="item.Name">{{item.Name | truncate(20) }}</span></Checkbox></span>
+        <div class="img_item_detail"><span><Checkbox :label="item.Name"><span :title="item.Name">{{item.Name | truncate(16) }}</span></Checkbox></span>
         </div>
       </a>
     </CheckboxGroup>
@@ -20,10 +20,11 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
   import bus from './bus'
-  import store from '../../../store'
-  import config from '../../../config'
-  import route from '../../../router'
+  import store from '@/store'
+  import config from '@/config'
+  import route from '@/router'
   import {directoryService} from '../../../services'
 
   export default{
@@ -32,7 +33,7 @@
       return {
         currentTree: [],
         waiting: false,
-        dfisThumbnailUrl: config.DFISThumbnailUrl
+        dfisThumbnailUrl:config.getDFISUrl(store.state.user.info.HashID,true)
       }
     },
     methods: {

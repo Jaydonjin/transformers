@@ -75,7 +75,7 @@
       </Col>
       <Col :span="14">
       <div class="transform_area_preview" style="min-height: 400px">
-        <img class="transform_preview_img" :src="current_img.detail.url">
+        <img class="transform_preview_img" :src="dfisThumbnailUrl+encodeURIComponent(current_img.FullName)">
         <a class="transform_preview_full_image">
           <span><a :href="current_transform_url" target="_blank">View full-size image</a></span>
         </a>
@@ -96,7 +96,8 @@
   </div>
 </template>
 <script>
-  import store from '../../../store'
+  import store from '@/store'
+  import config from '@/config'
   export default{
     name: "Brainstorm",
     data(){
@@ -105,7 +106,9 @@
         transformOption: this.init_transform_option(),
         modes: ['Scale', 'Fill'],
         formatTypes: ['Keep format', 'JPG', 'PNG'],
-        transformOptionChange:false
+        transformOptionChange:false,
+        dfisThumbnailUrl:config.getDFISUrl(store.state.user.info.HashID,false)
+
       }
     },
     methods: {
@@ -127,7 +130,7 @@
         this.$Message.warning('Copy failed .')
       },
       format_transform_url(conditionals){
-        let url=this.current_img.detail.url;
+        let url='';
         let url_array=[];
         let img_name;
         if(url){
