@@ -14,6 +14,7 @@
       name="Attachment"
       :action="uploadUrl"
       :on-success="uploadSuccess"
+      :on-name-error="nameError"
       :on-error="uploadError"
       :on-preview="on_preview"
       :show-upload-list="true"
@@ -53,6 +54,13 @@
         this.$Notice.error({
           title: 'Upload Failed',
           desc: true ? '' : ''
+        });
+      },
+      nameError(file, fileList){
+        this.$Notice.error({
+          title: 'Upload Failed',
+          desc: true ? `File name too long !  <br> ${file.name}` : '',
+          duration: 5
         });
       },
       on_preview(file){

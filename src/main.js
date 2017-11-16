@@ -19,6 +19,7 @@ Vue.use(VueClipboards);
 Vue.use(BootstrapVue);
 Vue.use(vueTruncateFilter)
 
+
 router.beforeEach((to, from, next) => {
   iView.LoadingBar.start();
   next();
