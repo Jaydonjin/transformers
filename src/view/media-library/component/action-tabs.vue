@@ -3,7 +3,7 @@
     <b-btn role="tab" v-b-toggle.move_tab variant="primary" size="sm">
       <Icon type="android-folder-open"></Icon>
     </b-btn>
-    <b-btn role="tab" variant="primary" size="sm">
+    <b-btn role="tab" @click="on_download_files()" variant="primary" size="sm">
       <Icon type="ios-cloud-download-outline"></Icon>
     </b-btn>
     <b-btn role="tab" @click="delete_file_modal= true" variant="primary" size="sm">
@@ -60,6 +60,7 @@
 </template>
 <script>
   import store from '../../../store'
+  import config from '../../../config'
   import {directoryService, fileService, toolService} from '../../../services'
   import bus from'./bus'
 
@@ -71,7 +72,7 @@
     data(){
       return {
         subTree: this.currentSubTree,
-        fullPath:[],
+        fullPath: [],
         delete_file_modal: false,
         modal_loading: false
       }
@@ -83,8 +84,8 @@
           .then(response => {
             this.subTree = response.data;
             this.fullPath.push(item.Name)
-            console.log('test1',this.fullPath)
-            console.log('test2',store.state.currentBreadcrumb)
+            console.log('test1', this.fullPath)
+            console.log('test2', store.state.currentBreadcrumb)
           })
       },
       on_bread(index){
@@ -109,7 +110,7 @@
           })
       },
       on_move_files(){
-        this.$emit('modalDisplay',true);
+        this.$emit('modalDisplay', true);
         let parentPath = store.state.currentBreadcrumb.join('/');
         fileService.move_files(parentPath, this.currentSelectFiles, this.move_path)
           .then(res => {
@@ -118,16 +119,16 @@
               desc: true ? '' : ''
             });
             store.commit('changeImageMove');
-            store.commit('changeImageMovePath',this.move_path);
+            store.commit('changeImageMovePath', this.move_path);
           })
           .catch(err => {
             store.commit('changeImageMove');
-            store.commit('changeImageMovePath',this.move_path);
+            store.commit('changeImageMovePath', this.move_path);
             let noticeDesc = err.data.message;
             this.$Notice.error({
               title: 'Move Failed',
               desc: false ? '' : noticeDesc,
-              duration:8
+              duration: 8
             });
           })
       },
@@ -150,6 +151,21 @@
             this.delete_file_modal = false;
             console.log('allERR', err)
           })
+      },
+      on_download_files(){
+        let parentPath = store.state.currentBreadcrumb.join('/');
+        this.currentSelectFiles.map(function (file, index, array) {
+          let imageUrl = parentPath ? `${config.DFISUrl}${parentPath}/${file}` : `${config.DFISUrl}${file}`;
+          let a = document.createElement('a');
+          let filename = file;
+          a.href = imageUrl;
+          a.download = filename;
+          a.click();
+          window.URL.revokeObjectURL(imageUrl);
+          let subArray = array.slice(index);
+          array.length == index + 1 ? subArray = [] : '';
+          store.commit('changeCurrentSelectFiles', subArray)
+        })
       }
     },
     computed: {
@@ -166,7 +182,7 @@
     },
     mounted(){
       this.fullPath = [...store.state.currentBreadcrumb];
-      console.log('mounted',this.fullPath)
+      console.log('mounted', this.fullPath)
     }
   }
 </script>

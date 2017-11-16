@@ -10,9 +10,10 @@
     <CheckboxGroup v-model="currentSelectFiles" @on-change="handleSelectFiles">
       <a v-for="(item,index) in currentTree" :key="index" v-if="!item.IsDirectory" class="img_item">
       <span class="directory_item_img" @click="on_transform_img(item)">
-      <img :src="dfisURL+encodeURIComponent(item.FullName)">
+      <img :src="dfisThumbnailUrl+encodeURIComponent(item.FullName)">
       </span>
-        <div class="img_item_detail"><span><Checkbox :label="item.Name"><span :title="item.Name">{{item.Name | truncate(20) }}</span></Checkbox></span></div>
+        <div class="img_item_detail"><span><Checkbox :label="item.Name"><span :title="item.Name">{{item.Name | truncate(20) }}</span></Checkbox></span>
+        </div>
       </a>
     </CheckboxGroup>
   </div>
@@ -31,7 +32,7 @@
       return {
         currentTree: [],
         waiting: false,
-        dfisURL:config.DFISUrl
+        dfisThumbnailUrl: config.DFISThumbnailUrl
       }
     },
     methods: {
@@ -39,7 +40,7 @@
         directoryService.get_sub_tree(pullPath)
           .then(response => {
             if (response.data) {
-              this.$emit('modalDisplay',false);
+              this.$emit('modalDisplay', false);
               this.currentTree = response.data;
               this.$emit('currentTree', this.currentTree);
               this.waiting = false;
@@ -47,7 +48,7 @@
             }
           })
           .catch(response => {
-            this.$emit('modalDisplay',false);
+            this.$emit('modalDisplay', false);
             this.waiting = false
           })
       },
@@ -104,7 +105,7 @@
       imageDelete: function () {
         this.get_tree(this.currentDirectory);
       },
-      imageMove:function () {
+      imageMove: function () {
         store.commit('changeCurrentDirectory', this.imageMovePath);
         this.get_tree(this.imageMovePath)
       }

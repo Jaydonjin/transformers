@@ -6,5 +6,6 @@ const thumbnailSize = 'w_152,h_102,rx_line/';
 export default {
   DirectoryUrl: `${serverURI}/directory/`,
   FileUrl: `${serverURI}/file/`,
-  DFISUrl:`${dfisURI}/${userID}/upload/${thumbnailSize}`
+  DFISThumbnailUrl:`${dfisURI}/${userID}/upload/${thumbnailSize}`,
+  DFISUrl:`${dfisURI}/${userID}/upload/`
 }
