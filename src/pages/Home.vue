@@ -1,3 +1,6 @@
+<style lang="less">
+  @import "../style/main.less";
+</style>
 <template>
   <div>
     <img
@@ -24,7 +27,6 @@
     name: 'home',
     data () {
       return {
-        currentUploadUrl: "http://scmesos04/autotest/normalgroup/123.jgp",
         titleMenuMap: {'media_library': 'Media Library', 'dashboard': 'Dashboard', 'transformations': 'Transformations'}
       };
     },
@@ -42,7 +44,7 @@
 </script>
 <style>
   .transformers_icon {
-    height: 40px;
+    height: 50px;
     position: absolute;
     background-color: #0078ff;
   }

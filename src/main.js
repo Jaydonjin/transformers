@@ -15,7 +15,6 @@ import {user} from '@/services'
 import {session} from '@/common'
 
 
-
 Vue.config.productionTip = false;
 Vue.use(iView);
 Vue.use(VueClipboards);
@@ -27,23 +26,37 @@ router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (session.get('transformers_isLogin')) {
       let userInfo = session.get('transformers_userInfo');
-      store.dispatch('login',userInfo);
+      store.dispatch('login', userInfo);
       next()
     } else {
-      user.authorize(to,from)
-        .then(({token, userInfo})=>{
+      user.authorize(to, from)
+        .then(({token, userInfo}) => {
           session.set('transformers_userInfo', userInfo);
-          store.dispatch('login',userInfo);
+          store.dispatch('login', userInfo);
           session.set('transformers_isLogin', true);
           session.set('transformers_token', token);
           next()
         })
-        .catch(err =>{
+        .catch(err => {
           session.delete('transformers_isLogin')
         })
     }
     iView.LoadingBar.start();
-  }else {next()}
+  }
+  else if (to.matched.some(record => record.meta.requiresImage)) {
+    if (Object.keys(store.state.image.info).length) {
+      next()
+    } else {
+      router.app.$Message.warning({
+        content: 'Please select a Image in the media library first !',
+        duration: 5
+      });
+      next('/console/media_library')
+    }
+  }
+  else {
+    next()
+  }
 });
 
 router.afterEach(route => {

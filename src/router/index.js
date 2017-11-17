@@ -48,7 +48,8 @@ export const appRouter = [
         name: 'transformations',
         component: transformation,
         meta: {
-          requiresAuth: true
+          requiresAuth: true,
+          requiresImage: true
         }
       }
     ]

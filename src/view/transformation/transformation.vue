@@ -1,6 +1,3 @@
-<style lang="less">
-  @import "../../style/main.less";
-</style>
 <template>
   <div class="transform_view">
     <transition name="slide-left">

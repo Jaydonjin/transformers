@@ -1,23 +1,20 @@
-<style lang="less">
-  @import "../style/main.less";
-</style>
 <template>
   <div class="dfis_menu">
     <div class="transformer_menu">
       <Menu mode="horizontal" :theme="theme1" :active-name="activeName" @on-select="currentMenuName">
         <!--<MenuItem name="dashboard">-->
-          <!--<Icon type="ios-paper"></Icon>-->
-          <!--Dashboard-->
+        <!--<Icon type="ios-paper"></Icon>-->
+        <!--Dashboard-->
         <!--</MenuItem>-->
         <MenuItem name="media_library">
           <Icon type="images"></Icon>
-          Media Library
+          <b>Media Library</b>
         </MenuItem>
         <MenuItem name="transformations">
           <Icon type="settings"></Icon>
-          Transformations
+          <b>Transformations</b>
         </MenuItem>
-        <MenuItem name="user" style="float: right;padding-top: 2px">
+        <MenuItem name="user" style="float: right;padding-top:10px;height: 50px">
           <Dropdown trigger="custom" placement="bottom-end" :visible="visible">
             <a href="javascript:void(0)" @click="handleOpen">
               <Avatar :src="currentUser.Avatar"/>
@@ -40,7 +37,7 @@
 
 <script>
   import router from '../router/index'
-  import { mapGetters, mapActions } from 'vuex'
+  import {mapGetters, mapActions} from 'vuex'
   import store from '../store'
   export default {
     name: 'dfisMenu',
@@ -83,7 +80,17 @@
   }
 
   .ivu-menu-horizontal {
-    height: 40px;
-    line-height: 40px;
+    height: 50px;
+    line-height: 50px;
+  }
+
+  .ivu-menu-item:hover {
+    color: #fff;
+    background: linear-gradient(to bottom, #0754ad 0%, #133762 100%)
+  }
+
+  .ivu-menu-item {
+    padding: 0 10px;
+    margin: 0 10px;
   }
 </style>

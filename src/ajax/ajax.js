@@ -13,10 +13,10 @@ export default {
       console.error('API function call requires uri argument');
       return
     }
-    let token= session.get('transformers_token');
-    let defaultHeader = {"Authorization":`bearer ${token}`};
+    let token = session.get('transformers_token');
+    let defaultHeader = {"Authorization": `bearer ${token}`};
     let header = headers ? headers : defaultHeader;
-    return axios({method, url, data, headers:header})
+    return axios({method, url, data, headers: header})
       .then(res => {
         iView.LoadingBar.finish();
         return res
@@ -31,12 +31,10 @@ export default {
     return axios.all(requestList)
       .then(res => {
         iView.LoadingBar.finish();
-        console.log(res)
         return res
       })
       .catch(err => {
         iView.LoadingBar.error();
-        console.log(err)
         return Promise.reject(err);
       })
   }

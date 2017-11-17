@@ -1,6 +1,3 @@
-<style lang="less">
-  @import "../../../style/main.less";
-</style>
 <template>
   <div class="image_detail" v-if="current_img.FullName">
     <div class="area_image_display">
@@ -12,6 +9,10 @@
       <div class="upload_info">Uploaded 21 days ago</div>
       <div><a>Rename</a></div>
     </div>
+    <div class="area_image_action">
+      <Button>Default</Button>
+      <Button type="error">Error</Button>
+    </div>
   </div>
 </template>
 <script>
@@ -21,8 +22,8 @@
     name: 'IronHide',
     data(){
       return {
-        current_img: store.state.currentImg,
-        dfisThumbnailUrl:config.getDFISUrl(store.state.user.info.HashID,false)
+        current_img: store.state.image.info,
+        dfisThumbnailUrl: config.getDFISUrl(store.state.user.info.HashID, false)
       }
     }
   }

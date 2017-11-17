@@ -3,7 +3,7 @@ import { user } from '@/services'
 
 const state = {
   info: {}
-}
+};
 
 const mutations = {
   [types.LOGIN] (state, userInfo) {
@@ -18,16 +18,16 @@ const mutations = {
   [types.LOGOUT] (state) {
     state.info = {}
   }
-}
+};
 const actions = {
   login ({commit, state}, userInfo) {
     commit(types.LOGIN_SUCCESS, userInfo)
   },
   logout ({commit, state}) {
-    commit(types.LOGOUT)
+    commit(types.LOGOUT);
     user.logout()
   }
-}
+};
 
 export default {
   state,
