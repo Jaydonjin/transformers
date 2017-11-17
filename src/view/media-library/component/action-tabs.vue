@@ -59,9 +59,9 @@
   </div>
 </template>
 <script>
-  import store from '../../../store'
-  import config from '../../../config'
-  import {directoryService, fileService, toolService} from '../../../services'
+  import store from '@/store'
+  import config from '@/config'
+  import {directoryService, fileService, toolService} from '@/services'
   import bus from'./bus'
 
   export default{
@@ -74,7 +74,8 @@
         subTree: this.currentSubTree,
         fullPath: [],
         delete_file_modal: false,
-        modal_loading: false
+        modal_loading: false,
+        dfisUrl: config.getDFISUrl(store.state.user.info.HashID, false)
       }
     },
     methods: {
@@ -155,7 +156,9 @@
       on_download_files(){
         let parentPath = store.state.currentBreadcrumb.join('/');
         this.currentSelectFiles.map(function (file, index, array) {
-          let imageUrl = parentPath ? `${config.DFISUrl}${parentPath}/${file}` : `${config.DFISUrl}${file}`;
+          console.log(this)
+          let imageUrl = parentPath ? `${this.dfisUrl}${parentPath}/${file}` : `${this.dfisUrl}${file}`;
+          debugger
           let a = document.createElement('a');
           let filename = file;
           a.href = imageUrl;
@@ -165,7 +168,7 @@
           let subArray = array.slice(index);
           array.length == index + 1 ? subArray = [] : '';
           store.commit('changeCurrentSelectFiles', subArray)
-        })
+        }, this)
       }
     },
     computed: {
