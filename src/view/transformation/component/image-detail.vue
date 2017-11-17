@@ -4,8 +4,8 @@
       <img class="area_image_display" :src="dfisThumbnailUrl+encodeURIComponent(current_img.FullName)">
     </div>
     <div class="area_image_detail">
-      <div class="public_id">{{current_img.name}}</div>
-      <div class="info">{{current_img.FullName}}, {{current_img.FullName}} {{current_img.FullName}}</div>
+      <div class="public_id">{{current_img.FullName}}</div>
+      <div class="info">{{current_img.FullName}}</div>
       <div class="upload_info">Uploaded 21 days ago</div>
       <div><a>Rename</a></div>
     </div>

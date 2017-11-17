@@ -32,7 +32,6 @@ router.beforeEach((to, from, next) => {
       user.authorize(to, from)
         .then(({token, userInfo}) => {
           session.set('transformers_userInfo', userInfo);
-          store.dispatch('login', userInfo);
           session.set('transformers_isLogin', true);
           session.set('transformers_token', token);
           next()
