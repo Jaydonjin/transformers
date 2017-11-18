@@ -12,7 +12,7 @@
               <Icon type="ios-help-outline"></Icon>
             </a>
             </div>
-            <Slider v-model="transformOption.width" show-input></Slider>
+            <Slider v-model="transformModel.width" show-input></Slider>
           </FormItem>
           </Col>
           <Col :span="8">
@@ -21,7 +21,7 @@
               <Icon type="ios-help-outline"></Icon>
             </a>
             </div>
-            <Slider v-model="transformOption.height" show-input></Slider>
+            <Slider v-model="transformModel.height" show-input></Slider>
           </FormItem>
           </Col>
           <Col :span="8">
@@ -31,8 +31,8 @@
             </a>
             </div>
             <div class="select_item">
-              <Select v-model="transformOption.mode" size="small">
-                <Option v-for="modeType in modes" :value="modeType" :key="modeType">{{ modeType }}</Option>
+              <Select v-model="transformModel.crop" size="small">
+                <Option v-for="modeType in transformOption.modes" :value="modeType.toLowerCase()" :key="modeType">{{ modeType }}</Option>
               </Select>
             </div>
           </FormItem>
@@ -43,8 +43,8 @@
           <Col :span="8">
           <FormItem label="Format:" class="transform_option_item">
             <div class="select_item">
-              <Select v-model="transformOption.format" size="small">
-                <Option v-for="formatType in formatTypes" :value="formatType" :key="formatType">{{ formatType }}
+              <Select v-model="transformModel.format" size="small">
+                <Option v-for="formatType in transformOption.formatTypes" :value="formatType" :key="formatType">{{ formatType }}
                 </Option>
               </Select>
             </div>
@@ -56,7 +56,7 @@
               <Icon type="ios-help-outline"></Icon>
             </a>
             </div>
-            <Slider v-model="transformOption.quality" show-input></Slider>
+            <Slider v-model="transformModel.quality" show-input></Slider>
           </FormItem>
           </Col>
           <Col :span="8">
@@ -65,7 +65,18 @@
               <Icon type="ios-help-outline"></Icon>
             </a>
             </div>
-            <Slider v-model="transformOption.rotation" :min="0" :max="360" show-input></Slider>
+            <Slider v-model="transformModel.angle" :min="0" :max="360" show-input></Slider>
+          </FormItem>
+          </Col>
+        </Row>
+        <Row>
+          <Col :span="8">
+          <FormItem label="Corner radius:" class="transform_option_item">
+            <div slot="label">Corner radius:<a style="padding-left: 5px">
+              <Icon type="ios-help-outline"></Icon>
+            </a>
+            </div>
+            <Slider v-model="transformModel.radius" :min="0" :max="30" show-input></Slider>
           </FormItem>
           </Col>
         </Row>
@@ -73,7 +84,9 @@
       </Col>
       <Col :span="14">
       <div class="transform_area_preview" style="min-height: 400px">
-        <img class="transform_preview_img" :src="dfisUrl+encodeURIComponent(current_img.FullName)">
+        <img class="transform_preview_img" :src="preview_transform_url">
+        <Spin size="small" fix v-if="transformOptionChange"><span></span></Spin>
+        <Button class="refreshButton" v-if="transformOptionChange" type="primary" icon="refresh" @click="on_refresh()">Refresh Preview</Button>
         <a class="transform_preview_full_image">
           <span><a :href="current_transform_url" target="_blank">View full-size image</a></span>
         </a>
@@ -95,33 +108,35 @@
       </div>
       </Col>
     </Row>
-    {{current_transform_url}}
   </div>
 </template>
 <script>
   import store from '@/store'
   import config from '@/config'
   import cloudinary from 'cloudinary-core';
+  import {session} from '@/common'
   export default{
     name: "Brainstorm",
     data(){
       return {
         current_img: store.state.image.info,
-        transformOption: this.init_transform_option(),
-        modes: ['Scale', 'Fill'],
-        formatTypes: ['Keep format', 'JPG', 'PNG'],
+        transformModel: this.init_transform_model(),
+        transformOption:{
+          modes: ['Scale', 'Fill'],
+          formatTypes: ['Keep format', 'JPG', 'PNG']
+        },
         transformOptionChange: false,
+        preview_transform_url:DfisTransformers.url(store.state.user.info.HashID,store.state.image.info.FullName,{transformation:[]}),
         dfisUrl: config.getDFISUrl(store.state.user.info.HashID, false)
-
       }
     },
     methods: {
-      init_transform_option(){
-        return {width: 100, height: 100, mode: 'Scale', format: 'Keep format', quality: 100, rotation: 0}
+      init_transform_model(){
+        return {width: 100, height: 100, crop: 'scale', format: 'Keep format', radius:0,quality: 100, angle: 0}
       },
       on_reset_option(){
-        this.transformOption = this.init_transform_option();
-        this.transformOptionChange = false;
+        this.transformModel = this.init_transform_model();
+        this.transformModelChange = false;
       },
       create_conditional(){
         console.log(this.transformOption.width);
@@ -133,23 +148,15 @@
       clipboardError(){
         this.$Message.warning('Copy failed .')
       },
-      format_transform_url(conditionals){
-        let url = this.dfisUrl;
-        let url_array = [];
-        let img_name;
-        if (url) {
-          url_array = url.split('/');
-          url_array.pop();
-          img_name = encodeURIComponent(this.current_img.FullName);
-          url_array.push(...conditionals);
-          url_array.push(img_name)
-        }
-        return url_array
+      on_refresh(){
+        this.preview_transform_url = this.current_transform_url;
+        this.transformOptionChange=false
       }
     },
     watch: {
-      transformOption: {
+      transformModel: {
         handler: function () {
+          console.log(this.transformModel);
           this.transformOptionChange = true
         },
         deep: true
@@ -157,27 +164,10 @@
     },
     computed: {
       current_transform_url: function () {
-        let conditionals = [];
-        let conditional = "";
-        if (this.transformOption.mode && this.transformOptionChange) {
-          conditional += `c_${this.transformOption.mode}`
-        }
-        if (this.transformOption.width != 100) {
-          conditional += `,w_${this.transformOption.width}`
-        }
-        if (this.transformOption.height != 100) {
-          conditional += `,h_${this.transformOption.height}`
-        }
-        conditional != "" ? conditionals.push(conditional) : '';
-        let url_array = this.format_transform_url(conditionals);
-        return url_array.join('/').toLocaleLowerCase()
+        return DfisTransformers.url(store.state.user.info.HashID,this.current_img.FullName,{transformation:[this.transformModel]});
       }
     },
     mounted(){
-      var cl = new cloudinary.Cloudinary({cloud_name: "dgvxg1d2d", secure: true});
-      var result = cl.imageTag("sample.jpg", {width: 410, crop: "pad"}).toHtml();
-      console.log(result);
-      Transform
     },
   }
 </script>

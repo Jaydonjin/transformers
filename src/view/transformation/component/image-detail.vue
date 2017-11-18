@@ -9,10 +9,6 @@
       <div class="upload_info">Uploaded 21 days ago</div>
       <div><a>Rename</a></div>
     </div>
-    <div class="area_image_action">
-      <Button>Default</Button>
-      <Button type="error">Error</Button>
-    </div>
   </div>
 </template>
 <script>
