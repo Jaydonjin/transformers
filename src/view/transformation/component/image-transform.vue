@@ -1,3 +1,4 @@
+<script src="../../../../static/transformUrl.js"></script>
 <template>
   <div class="transform_area">
     <Row>
@@ -78,7 +79,7 @@
         </a>
         <div>
           <b-card no-body>
-            <b-tabs small card >
+            <b-tabs small card>
               <b-tab title="URL">
                 <code><a class="transform_sdk_url" :href="current_transform_url"
                          target="_blank">{{current_transform_url}}</a>
@@ -100,6 +101,7 @@
 <script>
   import store from '@/store'
   import config from '@/config'
+  import cloudinary from 'cloudinary-core';
   export default{
     name: "Brainstorm",
     data(){
@@ -170,7 +172,13 @@
         let url_array = this.format_transform_url(conditionals);
         return url_array.join('/').toLocaleLowerCase()
       }
-    }
+    },
+    mounted(){
+      var cl = new cloudinary.Cloudinary({cloud_name: "dgvxg1d2d", secure: true});
+      var result = cl.imageTag("sample.jpg", {width: 410, crop: "pad"}).toHtml();
+      console.log(result);
+      Transform
+    },
   }
 </script>
 <style>
